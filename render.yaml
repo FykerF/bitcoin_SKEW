@@ -1,0 +1,17 @@
+services:
+  # Bitcoin Fall Prediction API
+  - type: web
+    name: bitcoin-prediction-api
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python fetch_pretrained_models.py
+    startCommand: cd api && python app_simple.py --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MODEL_DIR
+        value: ./models
+      - key: MODEL_URL
+        value: https://drive.google.com/file/d/1MmQSAybZX3RIQgb8dhCywCeXZ6u2x6MM/view?usp=sharing
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+    healthCheckPath: /health

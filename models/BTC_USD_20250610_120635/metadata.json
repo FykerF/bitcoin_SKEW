@@ -1,0 +1,101 @@
+{
+  "ticker": "BTC-USD",
+  "start_date": "2018-01-01",
+  "training_date": "20250610_120635",
+  "target_configs": [
+    {
+      "n_sigma": 5,
+      "horizon_days": 30,
+      "vol_window": 30,
+      "name": "5_30_30",
+      "cooldown_days": 20
+    },
+    {
+      "n_sigma": 2,
+      "horizon_days": 7,
+      "vol_window": 7,
+      "name": "2_7_7",
+      "cooldown_days": 7
+    },
+    {
+      "n_sigma": 4,
+      "horizon_days": 15,
+      "vol_window": 15,
+      "name": "4_15_15",
+      "cooldown_days": 12
+    }
+  ],
+  "model_config": {
+    "n_features": 30,
+    "test_split": 0.3,
+    "smote_strategy": "aggressive",
+    "cv_folds": 10
+  },
+  "ensemble_weights": [
+    0.275,
+    0.45,
+    0.275
+  ],
+  "selected_features": [
+    "cumulative_return",
+    "drawdown",
+    "vol_30d",
+    "macd",
+    "volume_ma_14d",
+    "volume_ma_30d",
+    "obv",
+    "obv_ma_7d",
+    "obv_ma_14d",
+    "obv_ma_30d",
+    "obv_slope_7d",
+    "obv_slope_14d",
+    "obv_slope_30d",
+    "vpt",
+    "vpt_ma_14d",
+    "var_5pct_14d",
+    "var_95pct_14d",
+    "cvar_5pct_14d",
+    "var_5pct_30d",
+    "var_95pct_30d",
+    "cvar_5pct_30d",
+    "max_adverse_move_7d",
+    "max_favorable_move_7d",
+    "max_adverse_move_14d",
+    "max_favorable_move_14d",
+    "max_adverse_move_30d",
+    "max_favorable_move_30d",
+    "rolling_kurt_30d",
+    "high_vol_regime_30d",
+    "drawdown_volume_interaction"
+  ],
+  "results": {
+    "5_30_30": {
+      "train_precision": 0.7857910353684464,
+      "test_precision": 0.8253206413443802,
+      "best_params": {
+        "C": 10.0,
+        "penalty": "l1",
+        "solver": "liblinear"
+      }
+    },
+    "2_7_7": {
+      "train_precision": 0.6979999658978326,
+      "test_precision": 0.696902027221233,
+      "best_params": {
+        "C": 10.0,
+        "penalty": "l1",
+        "solver": "liblinear"
+      }
+    },
+    "4_15_15": {
+      "train_precision": 0.7963112033783105,
+      "test_precision": 0.8435523289246694,
+      "best_params": {
+        "C": 1.0,
+        "penalty": "l1",
+        "solver": "liblinear"
+      }
+    }
+  },
+  "data_end_date": "2025-06-10"
+}

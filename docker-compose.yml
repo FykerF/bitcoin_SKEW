@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Main API for predictions (using pretrained models)
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_DIR=/app/models
+      - PYTHONPATH=/app
+    volumes:
+      - ./models:/app/models
+      - ./generalized_fall_predictor.py:/app/generalized_fall_predictor.py
+      - ./uptrend_detector.py:/app/uptrend_detector.py
+      - ./fracdiff.py:/app/fracdiff.py
+      - ./train_and_save_model.py:/app/train_and_save_model.py
+      - ./setup_initial_model.py:/app/setup_initial_model.py
+    command: ["python", "app_simple.py"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Streamlit dashboard
+  streamlit:
+    build:
+      context: ./streamlit_app
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Model training service (separate from main API)
+  training:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - MODEL_DIR=/app/models
+      - PYTHONPATH=/app
+    volumes:
+      - ./models:/app/models
+      - ./generalized_fall_predictor.py:/app/generalized_fall_predictor.py
+      - ./uptrend_detector.py:/app/uptrend_detector.py
+      - ./fracdiff.py:/app/fracdiff.py
+      - ./train_and_save_model.py:/app/train_and_save_model.py
+      - ./setup_initial_model.py:/app/setup_initial_model.py
+    command: ["python", "train_and_save_model.py"]
+    profiles:
+      - training
+
+volumes:
+  model_data:
+
+networks:
+  default:
+    name: bitcoin-prediction-network

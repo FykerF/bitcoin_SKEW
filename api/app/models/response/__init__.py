@@ -1,0 +1,3 @@
+"""
+Response models for the Bitcoin Fall Prediction API
+"""

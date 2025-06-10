@@ -1,0 +1,16 @@
+TO-DO:
+
+3. Build basic SKEW index prototype 
+
+4. Try working on the missing strikes (ONLY IF IT IS NEEDED)
+
+DONE:
+
+Collect and process the data
+
+EDA
+
+it appears that there is some predictive power judging by the graph, but it happens quite often that dd appears in longer than 15 days period
+but there is another question, mb model is just bad, and we have now chance but stick to the more complicated models
+
+why aren't we developing some other system of exiting rather then just waiting for N periods? 
