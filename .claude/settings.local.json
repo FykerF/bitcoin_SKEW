@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(pdftotext:*)"
-    ],
-    "deny": []
-  },
-  "enableAllProjectMcpServers": false
-}
